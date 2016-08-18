@@ -1,0 +1,142 @@
+mysqld install;
+net start mysql;
+密码修改：mysqladmin -u root -p password 新密码
+mysql -uroot -p123456
+show databases;
+---创建库
+drop database if exists bookstore;
+create database bookstore; 
+use bookstore;
+
+show tables;
+---创建管理员表
+DROP TABLE IF EXISTS admininfo;
+CREATE TABLE admininfo(
+  aid int(11) NOT NULL,
+  aname varchar(20) NOT NULL,
+  apwd varchar(20) NOT NULL,
+  alevel varchar(10) DEFAULT '普通',
+  PRIMARY KEY (aid)
+);
+INSERT INTO admininfo VALUES (1001,'helen','123456','超级');
+INSERT INTO admininfo VALUES (1002,'lei','123456','普通');
+
+---图书信息表
+
+DROP TABLE IF EXISTS booksinfo;
+CREATE TABLE booksinfo(
+  Bid int(11) NOT NULL,
+  Bname varchar(100) NOT NULL,
+  Bprice double NOT NULL,
+  Bclass varchar(50) DEFAULT 'IT',
+  Bamount int(11) NOT NULL,
+  Bdate datetime DEFAULT NULL,
+  Bimgurl varchar(100) DEFAULT 'img/default.jpg',
+  Blook int(11) DEFAULT '0',
+  Bintro text,
+  Bbrief text,
+  PRIMARY KEY (Bid)
+);
+
+insert into booksinfo values(0000000,'《疯狂Android讲义(第2版)》',60,'IT',400,'2013-3-1','img/books/android.png',0,
+'作者:李刚|出版社:电子工业出版社|语种：简体中文|平装:782页','《疯狂Android讲义(第2版)》
+第一版荣获“电子工业出版社最畅销图书奖”；累计印刷10次，销售码洋二百余万，是Android学习、开发人员必备之选。
+深入阐述了Android应用开发的Activity、Service、BroadcastReceiver与ContentProvider四大组件，
+并详细介绍了Android全部图形界面组件的功能和用法，Android各种资源的管理与用法，Android图形、图像处理，
+事件处理，Android输入/输出处理，视频/视频等多媒体开发，OpenGL-ES开发，网络通信，传感器和GPS开发等内容，
+全面覆盖Android官方指南，在某些内容上更加具体、深入。并不局限于枯燥的理论介绍，而是采用了“项目驱动”的方式来讲授知
+
+识点，
+《疯狂Android讲义(第2版)》近百个实例，几乎每个知识点都可找到对应的参考实例。
+《疯狂Android讲义(第2版)》最后还提供了“疯狂连连看”、“电子拍卖系统Android客户端”两个应用，具有极高的参考价
+
+值。');
+
+insert into booksinfo values(0000001,'《精通iOS开发》',48,'IT',350,'2014-9-1','img/books/ios.jpg',0,
+'作者:纳丁|出版社:人民邮电出版社|语种：简体中文|平装:536页','还在iPhone和iPad应用开发的大门前徘徊？还是已经投身iOS
+
+应用开发阵营，
+但希望迅速提升自己的功力？选择《精通iOS开发》绝对能令你惊喜连连。四位作者均是资深移动开发专家，具有丰富的Mac、iOS、
+
+Cocoa及Objective-C开发经验。
+作者将多年的实战经验与智慧感悟汇集成本书，旨在帮助没有经验的读者顺利叩开iOS应用开发的大门，帮助有经验的读者迅速提升
+
+功力，从而在iOS开发的道路上所向披靡。
+《精通iOS开发》自问世以来就受到读者的交口赞誉，被奉为学习iOS平台开发的不二之选。中文版累计销量已超过5万册。新版做了
+
+大幅修订，力求使新老读者都能有最大收获。
+作者重写了所有项目代码，使之兼容新旧SDK，并对原有的各章内容进行更新，从而反映出技术的最新发展动态。
+还等什么？立即展卷阅读，加入iOS开发的行列吧！');
+
+insert into booksinfo values(0000002,'《撒哈拉的故事》',20,'文学',150,'2011-7-1','img/books/sahal.png',0,
+'作者:三毛|出版社:北京十月文艺出版社|语种：简体中文|平装:300页','本书由十几篇精彩动人的散文结合而成，记述了三毛与荷
+
+西物质贫乏却妙趣横生的沙漠生活。
+其中《沙漠中的饭店》是三毛适应荒凉单调的沙漠生活后，重新拾笔的第一篇文章，从此之后，三毛便写出一系列以沙漠为背景的
+
+故事，倾倒了全世界的华文读者。');
+
+insert into booksinfo values(0000003,'《零基础学炒股从入门到精通(通达信版)》',35,'经济类',200,'2012-4-
+
+1','img/books/chaogu.png',0,
+'作者:廖海燕|出版社:人民邮电出版社|语种：简体中文|平装:324页','用娴熟的技巧，摆脱对牛市的依赖！快速领会炒股基础知识
+
+与理论，轻松提高操作水平，准确捕捉买卖时机，逐步掌握各种盈利手法。
+要想在一生中获得投资的成功，并不需要顶级的智商、超凡的商业头脑或秘密的信息，而是需要一个稳妥的知识体系作为决策的基
+
+础，并且有能力控制自己的情绪，使其不会对这种体系造成侵蚀。');
+
+
+---书订单表
+DROP TABLE IF EXISTS orderbooks;
+CREATE TABLE orderbooks(
+  OBid int(11) NOT NULL,
+  Oid int(11) NOT NULL,
+  Uid int(11) NOT NULL,
+  Bid int(11) NOT NULL,
+  OBamount int(11) NOT NULL,
+  OBtotalprice double NOT NULL,
+  PRIMARY KEY (OBid)
+);
+
+---订单信息表
+DROP TABLE IF EXISTS orderinfo;
+CREATE TABLE orderinfo (
+  Oid int(11) NOT NULL,
+  Odate datetime NOT NULL,
+  Aid int(11) DEFAULT NULL,
+  Ostate varchar(20) DEFAULT NULL,
+  Orecname varchar(50) NOT NULL,
+  Orecadr varchar(200) NOT NULL,
+  Orectel varchar(20) DEFAULT NULL,
+  Uid int(11) DEFAULT NULL,
+  Ototalprice double DEFAULT NULL,
+  PRIMARY KEY (Oid)
+);
+---用户信息表
+DROP TABLE IF EXISTS userinfo;
+CREATE TABLE userinfo (
+  Uid int(11) NOT NULL,
+  Uname varchar(50) NOT NULL,
+  Upwd varchar(20) NOT NULL,
+  Uemail varchar(100) DEFAULT NULL,
+  PRIMARY KEY (Uid)
+);
+
+INSERT INTO userinfo VALUES (1001,'helen','123456','www.helen@163.com');
+INSERT INTO userinfo VALUES (1002,'lyy','123456','www.abc@163.com');
+--留言板表
+DROP TABLE IF EXISTS messageboard;
+CREATE TABLE messageboard (
+  Mid int(20) NOT NULL,
+  user_name varchar(50),
+  tele varchar(20),
+  Uemail varchar(20),
+  company varchar(50),
+  content varchar(225),
+  release_time datetime,
+  reply_content varchar(225),
+  reply_time datetime,
+  Aid varchar(100),
+  PRIMARY KEY (Mid)
+);
